@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title><%= siteTitle %> | <%= pageTitle %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div>
+      <nav>
+        <a class="nav-item" href="/">Home</a>
+        <a class="nav-item" href="/login">Login</a>
+        <a class="nav-item" href="/dashboard">Dashboard</a>
+      </nav>
+    </div>
+    <hr/>
+    <h1><%= pageTitle %></h1>
   </body>
 </html>

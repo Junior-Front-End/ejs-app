@@ -6,6 +6,9 @@ var logger = require('morgan');
  
 var app = express();
 
+// 
+app.locals.siteTitle = 'Ejs App'
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -17,7 +20,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
+app.use('/login', require('./routes/login'));
+app.use('/dashboard', require('./routes/dashboard'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
