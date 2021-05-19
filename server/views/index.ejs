@@ -8,11 +8,28 @@
     <div>
       <nav>
         <a class="nav-item" href="/">Home</a>
-        <a class="nav-item" href="/login">Login</a>
-        <a class="nav-item" href="/dashboard">Dashboard</a>
+        <a id="loginBTN" class="nav-item" href="/login">login</a> 
+        <a id="dashboardBTN" style="display: none;" class="nav-item" href="#">dashboard</a> 
+        <button id="signoutBTN" style="display: none;" class="nav-item" onclick="signout()">sign out</button> 
       </nav>
     </div>
     <hr/>
     <h1><%= pageTitle %></h1>
+
+    <% if(pageID == 'login'){ %>
+      <%- include partials/login-form.ejs %>
+    <% } %>
+
+    <% if(pageID == 'dashboard'){ %>
+      <%- include partials/dashboard.ejs %>
+    <% } %>
+
+    <% if(pageID == '404'){ %>
+      <%- include partials/404.ejs %>
+    <% } %>
+
+    <%- include partials/footer.ejs %>
+
+
   </body>
 </html>

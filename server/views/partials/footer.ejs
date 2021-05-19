@@ -1,0 +1,72 @@
+
+<script>  
+var token = sessionStorage.getItem('ejs-app-token')
+if (token !== null) {
+  var xhr = new XMLHttpRequest()
+  xhr.open('GET',`http://localhost:3000/api/verify?token=${token}`,true);
+  xhr.onreadystatechange = function(e) {e.preventDefault()
+  if (this.readyState == 4 && this.status == 200) {
+    let res = JSON.parse(this.response) ;
+    if(res.data === 'correctToken'){
+      document.querySelector('nav #signoutBTN').removeAttribute('style')
+      document.querySelector('nav #dashboardBTN').removeAttribute('style')
+      var dashboard_link = '/dashboard?token='+token;
+      document.querySelector('nav #dashboardBTN').setAttribute('href',dashboard_link)
+      document.querySelector('nav #loginBTN').setAttribute('style','display:none')
+      if(location.pathname === '/login'){
+        location.href = 'http://localhost:3000/dashboard?token='+token
+      }
+    }}}
+  xhr.send()
+}
+// sign out
+function signout() { 
+  sessionStorage.removeItem('ejs-app-token');
+  location.href = 'http://localhost:3000/login';
+}
+</script>
+
+  
+<% if(pageID === 'login'){ %> 
+
+<script>
+
+  document.querySelector('form').addEventListener('submit',submit,false)
+  
+  function submit(event) {
+      event.preventDefault(); 
+    // clear 
+    var mess = document.querySelector('form #message')
+    if (mess) { mess.outerHTML = '' }
+    // submit data 
+    var us = document.querySelector('form input#username').value
+    var pa = document.querySelector('form input#password').value
+    document.querySelector('form input#username').value = ''
+    document.querySelector('form input#password').value = ''
+    var data = `username=${us}&password=${pa}`;
+    // xhr
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST',`http://localhost:3000/api/signin`,true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function(e) {e.preventDefault()
+      if (this.readyState == 4 && this.status == 200) { 
+        var res = JSON.parse(this.response);
+        if (res.m) {
+          const div = document.createElement('div');
+          div.setAttribute('id','message');
+          div.append(res.m) 
+          document.querySelector('form').append(div) 
+        }else{
+          sessionStorage.setItem('ejs-app-token',res.token)
+          window.location.href = 'http://localhost:3000/dashboard?token='+this.response.token;
+        }
+      }}
+    xhr.send(data)
+  }
+  // submit
+  
+</script>
+<% } %>
+
+
+
